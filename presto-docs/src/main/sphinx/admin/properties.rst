@@ -845,3 +845,53 @@ The following properties allow tuning the :doc:`/functions/regexp`.
     to hit the limit on matches for subsequent rows as well, you want to use the
     correct algorithm from the beginning so as not to waste time and resources.
     The more rows you are processing, the larger this value should be.
+
+Remote Function Execution
+-------------------------
+
+The following properties allow the configuration of remote function execution.
+Remote function execution is only supported in Presto native (Prestissimo) and
+needs to be specified as part of the worker configuration.
+
+``remote-function-server.signature.files.directory.path``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    * **Type:** ``string``
+    * **Default value:** ``""``
+
+    The local filesystem path where json files containing remote function
+    signatures are located. If not empty, the Presto native worker will
+    recursively search, open, parse, and register function definitions from
+    these json files.
+
+
+``remote-function-server.thrift.address``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    * **Type:** ``string``
+    * **Default value:** ``""``
+
+    The location (ip address or hostname) that hosts the remote function
+    server, if any remote functions were registered using
+    ``remote-function-server.signature.files.directory.path``.
+    If not specified, falls back to the loopback interface (``::1``)
+
+``remote-function-server.thrift.port``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    * **Type:** ``integer``
+    * **Default value:** ``0``
+
+    The port that hosts the remote function server. If not specified and remote
+    functions are trying to be registered, throws.
+
+``remote-function-server.thrift.uds-path``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    * **Type:** ``string``
+    * **Default value:** ``""``
+
+    The UDS (unix domain socket) path to communicate with a local remote
+    function server. If specified, takes precedence over
+    ``remote-function-server.thrift.address`` and 
+    ``remote-function-server.thrift.port``.
